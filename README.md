@@ -1,3 +1,3 @@
 # BlinkingDuino
 
-Small Rustsample to make my Arduino LED blink
+Small Rustsample/tinkering to make my Arduino LED blink and flash it under a linux envrioment

@@ -1,0 +1,60 @@
+In this file well will set up of rust cargo, getting the dependencies right and getting everything done
+to flash the main code to the arduino
+
+// New project
+cargo new rust-arduino-blink
+
+//compile avr target
+rustup override set nightly
+
+//install and link pacman
+pacman -S avr-gcc
+pacman -S arduino-avr-core
+
+//dependencies for cargo.toml
+[dependencies]
+# A panic handler is needed.  This is a crate with the most basic one.
+panic-halt = "0.2.0"
+
+[dependencies.arduino-uno]
+git = "https://github.com/Rahix/avr-hal"
+
+//metadata cargo for avr-target
+{
+    "llvm-target": "avr-unknown-unknown",
+    "cpu": "atmega328p",
+    "target-endian": "little",
+    "target-pointer-width": "16",
+    "target-c-int-width": "16",
+    "os": "unknown",
+    "target-env": "",
+    "target-vendor": "unknown",
+    "arch": "avr",
+    "data-layout": "e-P1-p:16:8-i8:8-i16:8-i32:8-i64:8-f32:8-f64:8-n8-a:8",
+  
+    "executables": true,
+  
+    "linker": "avr-gcc",
+    "linker-flavor": "gcc",
+    "pre-link-args": {
+      "gcc": ["-Os", "-mmcu=atmega328p"]
+    },
+    "exe-suffix": ".elf",
+    "post-link-args": {
+      "gcc": ["-Wl,--gc-sections"]
+    },
+  
+    "singlethread": false,
+    "no-builtins": false,
+  
+    "no-default-libraries": false,
+  
+    "eh-frame-header": false
+  }
+  
+ //reference it in .cargo/config.toml
+[build]
+target = "avr-atmega328p.json"
+
+[unstable]
+build-std = ["core"]
